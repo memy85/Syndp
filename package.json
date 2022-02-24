@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/memy85/Syndp/issues"
   },
-  "homepage": "https://github.com/memy85/Syndp#readme"
+  "homepage": "https://github.com/memy85/Syndp#readme",
+  "publishConfig": {
+	"memy85:registry": "https://npm.pkg.github.com"
+  }
 }
