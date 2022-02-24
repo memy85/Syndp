@@ -1,0 +1,23 @@
+{
+  "name": "@memy85/syndp",
+  "version": "1.0.0",
+  "description": "`syndp` is a synthetica data generation algorithm leveraging Differential Privacy and other mechanisms that enables it.",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/memy85/Syndp.git"
+  },
+  "keywords": [
+    "synthetic",
+    "data"
+  ],
+  "author": "Won Seok Jang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/memy85/Syndp/issues"
+  },
+  "homepage": "https://github.com/memy85/Syndp#readme"
+}
