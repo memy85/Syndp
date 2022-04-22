@@ -3,3 +3,6 @@ Synthetic Data Generation method leveraging Differential Privacy with variety of
 
 ---
 - Author : Won Seok Jang
+
+---
+This is a package that anyone can use for synthesizing new data. This pacakage leverages local differential privacy and other techniques.
