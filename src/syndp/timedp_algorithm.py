@@ -1,8 +1,8 @@
 
 
-from syndp.utils.functions import *
-from syndp.mechanism import bounded_laplace_mechanism as BLM
-from syndp.mechanism import laplace_mechanism as LM
+from syndp.functions import *
+from syndp.bounded_laplace_mechanism import *
+from syndp.laplace_mechanism import *
 
 class TimeDP:
     
@@ -19,9 +19,9 @@ class TimeDP:
     
     def _dp_mechanism(self):
         if self.mechanism_type == 'laplace':
-            return LM.laplace_mechanism
+            return laplace_mechanism
         else :
-            return BLM.boundedlaplacemechanism
+            return boundedlaplacemechanism
     
     def calculate_dp_value(self, val, sens, D = None):
         '''
@@ -80,7 +80,7 @@ class Vector_creator:
     def make_new_gradient(self):
         print('created boundary list and making new gradients..')
         if self.mechanism_type == 'laplace':
-            return list(map(self.timedp.calculate_dp_value(sens=0.1), self.gradient_list))
+            return list(map(lambda x: self.timedp.calculate_dp_value(val = x, sens=0.1), self.gradient_list))
         else :
             boundary_list = self.create_boundary_list()
             return list(map(lambda x, y : self.timedp.calculate_dp_value(val=x, sens=0.1, D=y), self.gradient_list, boundary_list))
