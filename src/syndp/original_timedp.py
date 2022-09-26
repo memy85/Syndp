@@ -8,9 +8,8 @@ from multiprocessing import Pool, freeze_support
 import os,sys
 
 
-def get_differential_privacy_value(value, epsilon):
+def get_differential_privacy_value(value, epsilon, seed=0):
     
-    np.array(value)
     def pdf(x):
         b = 2 / (epsilon)
         c = 1 - 0.5 * (np.exp(-(value+1)/b) + np.exp(-(1 - value)/b))

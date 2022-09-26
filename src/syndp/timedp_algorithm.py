@@ -6,7 +6,7 @@ from syndp.laplace_mechanism import *
 
 class TimeDP:
     
-    def __init__(self, epsilon, delta, mechanism_type : str):
+    def __init__(self, epsilon, delta, mechanism_type : str, seed=0):
         '''
         This class is a noise giving class. It takes the gradient and calculates new synthezied series data
         you can choose two types of mechanism. Original laplace mechanism or Bounded Laplace Mechanism
@@ -16,6 +16,7 @@ class TimeDP:
         self.delta = delta 
         self.mechanism_type = mechanism_type
         self.mechanism = self._dp_mechanism()
+        self.seed = seed
     
     def _dp_mechanism(self):
         if self.mechanism_type == 'laplace':
@@ -28,9 +29,9 @@ class TimeDP:
         requires value(val) and sensitivity(sens)
         '''
         if self.mechanism_type == 'laplace':
-            return self.mechanism(value=val, sensitivity=sens, epsilon=self.epsilon)
+            return self.mechanism(value=val, sensitivity=sens, epsilon=self.epsilon, seed=self.seed)
         else :
-            return self.mechanism(value=val, D = D, b=0.1, epsilon=self.epsilon, delta = self.delta)
+            return self.mechanism(value=val, D = D, b=0.1, epsilon=self.epsilon, delta = self.delta, seed=self.seed)
 
 
 class Vector_creator:
@@ -67,18 +68,22 @@ class Vector_creator:
     
     def create_boundary(self, gradient):
         if gradient < 0 :
-            return 2*gradient, 0
+            return -9999, 0
         elif gradient > 0 :
-            return 0, 2*gradient
+            return 0, 9999
         else :
             return -1, 1
             
     def create_boundary_list(self):
+        
         print('creating boundary list')
+        
         return list(map(self.create_boundary, self.gradient_list))
     
     def make_new_gradient(self):
+        
         print('created boundary list and making new gradients..')
+        
         if self.mechanism_type == 'laplace':
             return list(map(lambda x: self.timedp.calculate_dp_value(val = x, sens=0.1), self.gradient_list))
         else :

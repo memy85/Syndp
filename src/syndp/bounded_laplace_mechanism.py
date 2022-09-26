@@ -6,7 +6,7 @@ def cal_C(value, D, b):
     return 1 - (1/2)*(np.exp((l-value)/b) + np.exp((value-u)/b))
 
 
-def boundedlaplacemechanism(value, D: tuple, b, epsilon, delta): 
+def boundedlaplacemechanism(value, D: tuple, b, epsilon, delta, seed=0): 
     '''
     density function of Wq(bounded laplace mechanism)
     D : the support for x(value)
@@ -28,15 +28,9 @@ def boundedlaplacemechanism(value, D: tuple, b, epsilon, delta):
     Cl_dQ = cal_C(l + dQ, D, b)
     
     dC = Cl_dQ / Cl
-    # print(f'Cl is {Cl} and Cl_dQ is {Cl_dQ}')
-    # print(f'dC is {dC}')
 
     if b < dQ/(epsilon - np.log(dC) - np.log(1 - delta)) :
-        # print('the variance does not suffice the preconditions')
-        # print('editing b ...')
         b = dQ/(epsilon - np.log(dC) - np.log(1 - delta))
-        # print(f"the value of b is {b}")
-        # update b
 
     # Here we do not calculate Cq 
     # Instead we calculate the function and then sum the output calculations
@@ -49,6 +43,7 @@ def boundedlaplacemechanism(value, D: tuple, b, epsilon, delta):
     density = output_calculation/theSum 
     
     # the function will output a randomized output!
+    np.random.seed(seed=seed)
     randomized_output = np.random.choice(theRange, 1, p=density)
 
     return randomized_output.item()
