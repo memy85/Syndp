@@ -53,5 +53,5 @@ def calculate_linear_function_form(coordinate: tuple, gradient: float):
     y = ax + b
     '''
     x, y = coordinate
-    b = y - x*gradient 
+    b = y - (x*gradient)
     return gradient, b

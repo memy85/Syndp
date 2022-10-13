@@ -13,7 +13,7 @@ def get_differential_privacy_value(value, epsilon, seed=0):
     def pdf(x):
         b = 2 / (epsilon)
         c = 1 - 0.5 * (np.exp(-(value+1)/b) + np.exp(-(1 - value)/b))
-        return 1 / (b * c * 2) * np.exp(-np.absolute(x - value)/b)
+        return (1 / (b * c * 2)) * np.exp(-np.absolute(x - value)/b)
 
     elements = np.linspace(-1, 1, 10**4)
     probabilities = pdf(elements)

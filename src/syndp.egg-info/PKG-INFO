@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: syndp
-Version: 0.2.0
+Version: 0.4.0
 Summary: Syndp is data synthesis package that leverages local differential privacy and various synthesis methods
 Home-page: https://github.com/memy85/Syndp
 Author: Won Seok Jang

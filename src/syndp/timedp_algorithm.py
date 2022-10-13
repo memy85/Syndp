@@ -6,7 +6,7 @@ from syndp.laplace_mechanism import *
 
 class TimeDP:
     
-    def __init__(self, epsilon, delta, mechanism_type : str, seed=0):
+    def __init__(self, epsilon, delta, mechanism_type : str, sensitivity=0.1, seed=0):
         '''
         This class is a noise giving class. It takes the gradient and calculates new synthezied series data
         you can choose two types of mechanism. Original laplace mechanism or Bounded Laplace Mechanism
@@ -15,6 +15,7 @@ class TimeDP:
         self.epsilon = epsilon
         self.delta = delta 
         self.mechanism_type = mechanism_type
+        self.sensitivity = sensitivity
         self.mechanism = self._dp_mechanism()
         self.seed = seed
     
@@ -24,14 +25,15 @@ class TimeDP:
         else :
             return boundedlaplacemechanism
     
-    def calculate_dp_value(self, val, sens, D = None):
+    def calculate_dp_value(self, val, D = None, seed=0):
         '''
         requires value(val) and sensitivity(sens)
         '''
         if self.mechanism_type == 'laplace':
-            return self.mechanism(value=val, sensitivity=sens, epsilon=self.epsilon, seed=self.seed)
+            return self.mechanism(value=val, sensitivity=self.sensitivity, epsilon=self.epsilon, seed=seed)
         else :
-            return self.mechanism(value=val, D = D, b=0.1, epsilon=self.epsilon, delta = self.delta, seed=self.seed)
+            self.sensitivity = 9999 # change to 9999
+            return self.mechanism(value=val, D = D, b=self.sensitivity, epsilon=self.epsilon, delta = self.delta, seed=self.seed)
 
 
 class Vector_creator:
@@ -76,19 +78,21 @@ class Vector_creator:
             
     def create_boundary_list(self):
         
-        print('creating boundary list')
+        # print('creating boundary list')
         
         return list(map(self.create_boundary, self.gradient_list))
     
     def make_new_gradient(self):
         
-        print('created boundary list and making new gradients..')
+        # print('created boundary list and making new gradients..')
         
         if self.mechanism_type == 'laplace':
-            return list(map(lambda x: self.timedp.calculate_dp_value(val = x, sens=0.1), self.gradient_list))
+            
+            seeds = [i+self.timedp.seed for i in range(0, len(self.gradient_list))]
+            return list(map(lambda x, y: self.timedp.calculate_dp_value(val = x, seed=y), self.gradient_list, seeds))
         else :
             boundary_list = self.create_boundary_list()
-            return list(map(lambda x, y : self.timedp.calculate_dp_value(val=x, sens=0.1, D=y), self.gradient_list, boundary_list))
+            return list(map(lambda x, y : self.timedp.calculate_dp_value(val=x, D=y, seed=self.timedp.seed), self.gradient_list, boundary_list))
     
     def calculate_function_form(self):
         '''

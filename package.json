@@ -1,6 +1,6 @@
 {
   "name": "@memy85/syndp",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "`syndp` is a synthetica data generation algorithm leveraging Differential Privacy and other mechanisms that enables it.",
   "main": "index.js",
   "scripts": {

@@ -3,6 +3,8 @@ import numpy as np
 
 def cal_C(value, D, b):
     l, u = D
+    if b < 0.001 :
+        b = 0.001 # set lower bound of b
     return 1 - (1/2)*(np.exp((l-value)/b) + np.exp((value-u)/b))
 
 
@@ -13,17 +15,20 @@ def boundedlaplacemechanism(value, D: tuple, b, epsilon, delta, seed=0):
     b : variance -> requires checkup. 
     sensitivity : the minimal difference 
     '''
+    # if the epsilon is 0, return the original value
+    if epsilon == 0 :
+        return value
+    
     if type(D) == None :
         return 0
     # assign boundaries
     l, u  = D
-
-    if (value < l) | (value > u) : return 0
     
     # Theorem 4.4(Fixed Point)
     dQ = abs(u - l)
     
-    # calculate Cl, Cl_dQ #Definition3.4
+    #Definition3.4
+    # calculate Cl, Cl_dQ 
     Cl = cal_C(l, D, b)
     Cl_dQ = cal_C(l + dQ, D, b)
     
