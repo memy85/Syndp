@@ -9,6 +9,7 @@ import os,sys
 
 
 def get_differential_privacy_value(value, epsilon, seed=0):
+    # l, u = boundary
     
     def pdf(x):
         b = 2 / (epsilon)
@@ -82,8 +83,8 @@ def timeseries_dp(timeseries, epsilon):
                 
             else :
                 if (value == v_1 == v_3) :
-                    # syn_value = get_differential_privacy_value(value, epsilon)
-                    syn_value = 0
+                    syn_value = get_differential_privacy_value(value, epsilon)
+                    # syn_value = 0
                     S.append(syn_value)
                 else : 
                     val1, val2 = list(set([value, v_1, v_3]))

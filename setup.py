@@ -4,7 +4,7 @@ import setuptools
 
 setuptools.setup(
         name = "syndp",
-        version = "0.4.0",
+        version = "0.5.0",
         author = "Won Seok Jang",
         author_email = "memy85@naver.com",
         description = "Syndp is data synthesis package that leverages local differential privacy and various synthesis methods",
