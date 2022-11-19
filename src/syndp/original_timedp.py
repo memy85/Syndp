@@ -83,9 +83,13 @@ def timeseries_dp(timeseries, epsilon):
                 
             else :
                 if (value == v_1 == v_3) :
-                    syn_value = get_differential_privacy_value(value, epsilon)
+                    scaler.fit(np.array(value).reshape(-1,1))
+                    scaled_value = scaler.transform(np.array(value).reshape(-1,1))
+                    syn_value = get_differential_privacy_value(scaled_value, epsilon)
+                    syn_value = np.array(syn_value).reshape(-1,1)
+                    syn_value = scaler.inverse_transform(syn_value)
                     # syn_value = 0
-                    S.append(syn_value)
+                    S.append(syn_value.item())
                 else : 
                     val1, val2 = list(set([value, v_1, v_3]))
                     ranges = np.array([val1, val2]).reshape(-1,1)
